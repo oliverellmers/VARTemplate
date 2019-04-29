@@ -1,33 +1,36 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(SOEvent))]
-public class SOEventEditor : Editor
+namespace ScriptableEvents
 {
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(SOEvent))]
+    public class SOEventEditor : Editor
     {
-        serializedObject.Update();
 
-        SOEvent script = (SOEvent)target;
-
-        EditorGUILayout.LabelField("Event Description");
-        EditorStyles.textField.wordWrap = true;
-        script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
-
-        script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
-
-        if (Application.isPlaying)
+        public override void OnInspectorGUI()
         {
-            if (GUILayout.Button("Raise Event"))
+            serializedObject.Update();
+
+            SOEvent script = (SOEvent)target;
+
+            EditorGUILayout.LabelField("Event Description");
+            EditorStyles.textField.wordWrap = true;
+            script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
+
+            script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
+
+            if (Application.isPlaying)
             {
-                script.Raise();
+                if (GUILayout.Button("Raise Event"))
+                {
+                    script.Raise();
+                }
             }
+
+            serializedObject.ApplyModifiedProperties();
+
+            EditorUtility.SetDirty(script);
         }
-
-        serializedObject.ApplyModifiedProperties();
-
-        EditorUtility.SetDirty(script);
     }
 }
 

@@ -6,6 +6,8 @@ All Rights Reserved.
 Confidential and Proprietary - Protected under copyright and other laws.
 ==============================================================================*/
 
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 
@@ -22,6 +24,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
     protected TrackableBehaviour mTrackableBehaviour;
     protected TrackableBehaviour.Status m_PreviousStatus;
     protected TrackableBehaviour.Status m_NewStatus;
+
+    
 
     #endregion // PROTECTED_MEMBER_VARIABLES
 
@@ -43,6 +47,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
     #endregion // UNITY_MONOBEHAVIOUR_METHODS
 
     #region PUBLIC_METHODS
+
 
     /// <summary>
     ///     Implementation of the ITrackableEventHandler function called when the
@@ -83,6 +88,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     protected virtual void OnTrackingFound()
     {
+
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
         var canvasComponents = GetComponentsInChildren<Canvas>(true);
@@ -103,6 +109,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
     protected virtual void OnTrackingLost()
     {
+
         var rendererComponents = GetComponentsInChildren<Renderer>(true);
         var colliderComponents = GetComponentsInChildren<Collider>(true);
         var canvasComponents = GetComponentsInChildren<Canvas>(true);

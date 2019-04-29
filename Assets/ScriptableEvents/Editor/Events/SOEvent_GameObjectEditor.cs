@@ -1,35 +1,38 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(SOEvent_GameObject))]
-public class SOEvent_GameObjectEditor : Editor
+namespace ScriptableEvents
 {
-    private GameObject tempValue = null;
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(SOEvent_GameObject))]
+    public class SOEvent_GameObjectEditor : Editor
     {
-        serializedObject.Update();
+        private GameObject tempValue = null;
 
-        SOEvent_GameObject script = (SOEvent_GameObject)target;
-
-        EditorGUILayout.LabelField("Event Description");
-        EditorStyles.textField.wordWrap = true;
-        script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
-
-        script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
-
-        if (Application.isPlaying)
+        public override void OnInspectorGUI()
         {
-            tempValue = (GameObject)EditorGUILayout.ObjectField("Value to use", tempValue, typeof(GameObject), true);
+            serializedObject.Update();
 
-            if (GUILayout.Button("Raise Event"))
+            SOEvent_GameObject script = (SOEvent_GameObject)target;
+
+            EditorGUILayout.LabelField("Event Description");
+            EditorStyles.textField.wordWrap = true;
+            script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
+
+            script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
+
+            if (Application.isPlaying)
             {
-                script.Raise(tempValue);
+                tempValue = (GameObject)EditorGUILayout.ObjectField("Value to use", tempValue, typeof(GameObject), true);
+
+                if (GUILayout.Button("Raise Event"))
+                {
+                    script.Raise(tempValue);
+                }
             }
+
+            serializedObject.ApplyModifiedProperties();
+
+            EditorUtility.SetDirty(script);
         }
-
-        serializedObject.ApplyModifiedProperties();
-
-        EditorUtility.SetDirty(script);
     }
 }

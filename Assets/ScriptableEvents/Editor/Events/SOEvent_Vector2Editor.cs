@@ -1,35 +1,38 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(SOEvent_Vector2))]
-public class SOEvent_Vector2Editor : Editor
+namespace ScriptableEvents
 {
-    private Vector2 tempValue = Vector3.zero;
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(SOEvent_Vector2))]
+    public class SOEvent_Vector2Editor : Editor
     {
-        serializedObject.Update();
+        private Vector2 tempValue = Vector3.zero;
 
-        SOEvent_Vector2 script = (SOEvent_Vector2)target;
-
-        EditorGUILayout.LabelField("Event Description");
-        EditorStyles.textField.wordWrap = true;
-        script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
-
-        script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
-
-        if (Application.isPlaying)
+        public override void OnInspectorGUI()
         {
-            tempValue = EditorGUILayout.Vector2Field("Value to use", tempValue);
+            serializedObject.Update();
 
-            if (GUILayout.Button("Raise Event"))
+            SOEvent_Vector2 script = (SOEvent_Vector2)target;
+
+            EditorGUILayout.LabelField("Event Description");
+            EditorStyles.textField.wordWrap = true;
+            script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
+
+            script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
+
+            if (Application.isPlaying)
             {
-                script.Raise(tempValue);
+                tempValue = EditorGUILayout.Vector2Field("Value to use", tempValue);
+
+                if (GUILayout.Button("Raise Event"))
+                {
+                    script.Raise(tempValue);
+                }
             }
+
+            serializedObject.ApplyModifiedProperties();
+
+            EditorUtility.SetDirty(script);
         }
-
-        serializedObject.ApplyModifiedProperties();
-
-        EditorUtility.SetDirty(script);
     }
 }

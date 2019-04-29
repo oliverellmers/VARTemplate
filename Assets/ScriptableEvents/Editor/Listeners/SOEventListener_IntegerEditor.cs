@@ -1,29 +1,32 @@
 ﻿using UnityEditor;
 
-[CustomEditor(typeof(SOEventListener_Integer))]
-public class SOEventListener_IntegerEditor : Editor
+namespace ScriptableEvents
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(SOEventListener_Integer))]
+    public class SOEventListener_IntegerEditor : Editor
     {
-        SOEventListener_Integer script = (SOEventListener_Integer)target;
-
-        this.serializedObject.Update();
-        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("Event"), true);
-
-        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
-        EditorGUILayout.LabelField("Event Description", EditorStyles.centeredGreyMiniLabel);
-
-        if (script.Event != null)
+        public override void OnInspectorGUI()
         {
-            EditorStyles.label.wordWrap = true;
-            EditorGUILayout.LabelField(script.Event.DescriptionText);
+            SOEventListener_Integer script = (SOEventListener_Integer)target;
+
+            this.serializedObject.Update();
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("Event"), true);
+
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+            EditorGUILayout.LabelField("Event Description", EditorStyles.centeredGreyMiniLabel);
+
+            if (script.Event != null)
+            {
+                EditorStyles.label.wordWrap = true;
+                EditorGUILayout.LabelField(script.Event.DescriptionText);
+            }
+            EditorGUILayout.EndHorizontal();
+
+
+            EditorGUILayout.PropertyField(this.serializedObject.FindProperty("Response"), true);
+
+            this.serializedObject.ApplyModifiedProperties();
         }
-        EditorGUILayout.EndHorizontal();
-
-
-        EditorGUILayout.PropertyField(this.serializedObject.FindProperty("Response"), true);
-
-        this.serializedObject.ApplyModifiedProperties();
     }
 }

@@ -1,36 +1,44 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-
-public class SOEventListener_GameObject : MonoBehaviour
+namespace ScriptableEvents
 {
-    public SOEvent_GameObject Event;
-    public GameObjectEvent Response;
-
-    private void OnEnable()
+    public class SOEventListener_GameObject : MonoBehaviour
     {
-        Event.RegisterListener(this);
-    }
+        public SOEvent_GameObject Event;
+        public GameObjectEvent Response;
 
-    private void OnDisable()
-    {
-        Event.UnRegisterListener(this);
-    }
-
-    public void OnEventRaised(GameObject value)
-    {
-        for (int i = 0; i < Response.GetPersistentEventCount(); i++)
+        private void OnEnable()
         {
-            if (Event.ShowDebugMessages)
+            if (Event != null)
             {
-                Debug.Log(Event.name + " raised: " + this.gameObject.name + " raising method " + Response.GetPersistentMethodName(i) + " with the parameter " + value);
+                Event.RegisterListener(this);
             }
         }
-        Response.Invoke(value);
-    }
-}
 
-[System.Serializable]
-public class GameObjectEvent : UnityEvent<GameObject> { }
+        private void OnDisable()
+        {
+            if (Event != null)
+            {
+                Event.UnRegisterListener(this);
+            }
+        }
+
+        public void OnEventRaised(GameObject value)
+        {
+            for (int i = 0; i < Response.GetPersistentEventCount(); i++)
+            {
+                if (Event.ShowDebugMessages)
+                {
+                    Debug.Log(Event.name + " raised: " + this.gameObject.name + " raising method " + Response.GetPersistentMethodName(i) + " with the parameter " + value);
+                }
+            }
+            Response.Invoke(value);
+        }
+    }
+
+    [System.Serializable]
+    public class GameObjectEvent : UnityEvent<GameObject> { }
+}
 
 
