@@ -26,9 +26,11 @@ namespace NatCorder.Examples {
         * Note that UI canvases in Overlay mode cannot be recorded, so we use a different mode (this is a Unity issue)
         */
 
-        [Header("Recording")]
-        public int videoWidth = 1280;
-        public int videoHeight = 720;
+        //[Header("Recording")]
+        //public int videoWidth = Screen.width;
+        //public int videoHeight = Screen.height;
+        private int videoWidth = Screen.width;
+        private int videoHeight = Screen.height;
 
         [Header("Microphone")]
         public bool recordMicrophone;
@@ -90,14 +92,54 @@ namespace NatCorder.Examples {
 
         private void OnReplay (string path) {
             Debug.Log("Saved recording to: "+path);
+
+
+            //TODO:
+
+            //1. store the path of this video in a variable
+
+            //2. replay the video
+
             // Playback the video
-            #if UNITY_EDITOR
-			EditorUtility.OpenWithDefaultApp(path);
-            #elif UNITY_IOS
+#if UNITY_EDITOR
+            EditorUtility.OpenWithDefaultApp(path);
+#elif UNITY_IOS
             Handheld.PlayFullScreenMovie("file://" + path);
-            #elif UNITY_ANDROID
+#elif UNITY_ANDROID
             Handheld.PlayFullScreenMovie(path);
-            #endif
+#endif
+
+                //Show icon to indicate replaying the video
+
+                //Show dialogue with a share icon and 'tap to share' button
+
+                //replaying/looping video behind slightly blurred out
+
+                // X button to hide 'tap to share' dialogue
+
+                //If dialogue clossed, replay video un-blurred
+
+                //small share icon button visible
+
+            NatShareU.NatShare.SaveToCameraRoll(path, "AR Recording");
+
+            //Do all of this in a while loop:
+
+            //Tick button to save to camera roll
+
+            //X button to discard - deletes
+
+            //if share video is true{
+            //NatShareU.NatShare.Share(path);
+            //}
+
+
+            // Remove video from original path to save space
+
+            //System.IO.File.Delete(path);
+
+
+            
         }
     }
 }
