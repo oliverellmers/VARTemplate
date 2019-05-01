@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadScene.unity
     guid: 6e3a6c4380ffd6241b9ca2dbbc347132
   - enabled: 1
-    path: Assets/Scenes/ImageTargets.unity
+    path: Assets/Scenes/Image Targets.unity
     guid: 3ebca51afb172f04cbaa06bb1debf3c8
   m_configObjects: {}

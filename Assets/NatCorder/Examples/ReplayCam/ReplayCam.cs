@@ -26,6 +26,8 @@ namespace NatCorder.Examples {
         * Note that UI canvases in Overlay mode cannot be recorded, so we use a different mode (this is a Unity issue)
         */
 
+        private ScreenRecorderUIController screenRecorderUIController;
+
         //[Header("Recording")]
         //public int videoWidth = Screen.width;
         //public int videoHeight = Screen.height;
@@ -41,7 +43,16 @@ namespace NatCorder.Examples {
         private CameraInput cameraInput;
         private AudioInput audioInput;
 
-        public void StartRecording () {            
+        private string videoPath = "";
+
+        public void StartRecording () {
+
+            screenRecorderUIController = FindObjectOfType<ScreenRecorderUIController>();
+            if (System.IO.File.Exists(videoPath)) {
+                System.IO.File.Delete(videoPath);
+            }
+            
+
             // Start recording
             recordingClock = new RealtimeClock();
             videoRecorder = new MP4Recorder(
@@ -93,55 +104,27 @@ namespace NatCorder.Examples {
         private void OnReplay (string path) {
             Debug.Log("Saved recording to: "+path);
 
-
-            //TODO:
-
-            //1. store the path of this video in a variable
-
-            //2. replay the video
-
-            // Playback the video
 #if UNITY_EDITOR
             EditorUtility.OpenWithDefaultApp(path);
 #elif UNITY_IOS
-            Handheld.PlayFullScreenMovie("file://" + path);
+            Handheld.PlayFullScreenMovie("file://" + path, Color.black, FullScreenMovieControlMode.CancelOnInput, FullScreenMovieScalingMode.AspectFit);
 #elif UNITY_ANDROID
-            Handheld.PlayFullScreenMovie(path);
+            Handheld.PlayFullScreenMovie(path, Color.black, FullScreenMovieControlMode.CancelOnInput, FullScreenMovieScalingMode.AspectFit);
 #endif
+            videoPath = path;
 
-            //Show icon to indicate replaying the video
+            screenRecorderUIController.ShareDialogueVisibility(true, 0.25f);
+            NativeGallery.SaveVideoToGallery(path, "VARTemplate_Recordings", "recording_" + System.IO.Path.GetFileName(path), null);
+        }
 
-            //Show dialogue with a share icon and 'tap to share' button
+        public void ShareImage() {
+            NatShareU.NatShare.Share(videoPath); 
+            videoPath = null;
+        }
 
-            //replaying/looping video behind slightly blurred out
-
-            // X button to hide 'tap to share' dialogue
-
-            //If dialogue clossed, replay video un-blurred
-
-            //small share icon button visible
-
-            System.IO.File.Move(path, Application.persistentDataPath );
-
-            //NatShareU.NatShare.SaveToCameraRoll(path);
-
-            //Do all of this in a while loop:
-
-            //Tick button to save to camera roll
-
-            //X button to discard - deletes
-
-            //if share video is true{
-            //NatShareU.NatShare.Share(path);
-            //}
-
-
-            // Remove video from original path to save space
-
-            //System.IO.File.Delete(path);
-
-
-            
+        public void DiscardVideo() {
+            System.IO.File.Delete(videoPath);
+            videoPath = null;
         }
     }
 }

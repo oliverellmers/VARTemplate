@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class AppSetup : MonoBehaviour
 {
     public AppData allAppData;
+    public Text SceneTitle;
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(gameObject);
         UnityEngine.SceneManagement.SceneManager.LoadScene(allAppData.StartScene);
-        
+        SceneTitle.text = allAppData.StartScene;
     }
 
 
@@ -20,21 +21,13 @@ public class AppSetup : MonoBehaviour
         return allAppData;
     }
 
-    private void SetupUI() {
-        foreach (CanvasGroup cg in allAppData.UILayers) {
-            if (allAppData.StartScene != cg.gameObject.name)
-            {
-                cg.interactable = false;
-                cg.blocksRaycasts = false;
-                cg.alpha = 0;
-            }
-            else {
-                cg.interactable = true;
-                cg.blocksRaycasts = true;
-                cg.alpha = 1;
-            }
-            
+    public void LogVuforiaTrackableEvent(bool b) {
+        if (b)
+        {
+            Debug.Log("Vuforia Trackable Found!");
         }
-        
+        else {
+            Debug.Log("Vuforia Trackable Lost!");
+        }
     }
 }
