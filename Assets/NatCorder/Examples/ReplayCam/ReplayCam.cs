@@ -109,19 +109,21 @@ namespace NatCorder.Examples {
             Handheld.PlayFullScreenMovie(path);
 #endif
 
-                //Show icon to indicate replaying the video
+            //Show icon to indicate replaying the video
 
-                //Show dialogue with a share icon and 'tap to share' button
+            //Show dialogue with a share icon and 'tap to share' button
 
-                //replaying/looping video behind slightly blurred out
+            //replaying/looping video behind slightly blurred out
 
-                // X button to hide 'tap to share' dialogue
+            // X button to hide 'tap to share' dialogue
 
-                //If dialogue clossed, replay video un-blurred
+            //If dialogue clossed, replay video un-blurred
 
-                //small share icon button visible
+            //small share icon button visible
 
-            NatShareU.NatShare.SaveToCameraRoll(path, "AR Recording");
+            System.IO.File.Move(path, Application.persistentDataPath );
+
+            //NatShareU.NatShare.SaveToCameraRoll(path);
 
             //Do all of this in a while loop:
 
