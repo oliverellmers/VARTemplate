@@ -13,10 +13,10 @@ namespace NatCorder.Examples {
 	using UnityEngine.EventSystems;
 
 	[RequireComponent(typeof(EventTrigger))]
-	public class RecordButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
+	public class RecordButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler/*, IPointerClickHandler*/ {
 
 		public Image button, countdown;
-		public UnityEvent onTouchDown, onTouchUp;
+		public UnityEvent onTouchDown, onTouchUp, onButtonTapped;
 		private bool pressed;
 		private const float MaxRecordingTime = 10f; // seconds
 
@@ -40,13 +40,24 @@ namespace NatCorder.Examples {
 			pressed = false;
 		}
 
+        /*
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData) {
+            if (pressed) return;
+            onButtonTapped.Invoke();
+        }
+        */
+
 		private IEnumerator Countdown () {
 			pressed = true;
 			// First wait a short time to make sure it's not a tap
 			yield return new WaitForSeconds(0.2f);
-			if (!pressed) yield break;
-			// Start recording
-			if (onTouchDown != null) onTouchDown.Invoke();
+            if (!pressed) {
+                onButtonTapped.Invoke();
+                yield break;
+            }
+            
+            // Start recording
+            if (onTouchDown != null) onTouchDown.Invoke();
 			// Animate the countdown
 			float startTime = Time.time, ratio = 0f;
 			while (pressed && (ratio = (Time.time - startTime) / MaxRecordingTime) < 1.0f) {

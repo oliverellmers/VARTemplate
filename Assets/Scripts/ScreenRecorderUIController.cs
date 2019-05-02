@@ -6,14 +6,18 @@ using DG.Tweening;
 
 public class ScreenRecorderUIController : MonoBehaviour
 {
-    
+    public string SaveFolder = "";
+    public Text MessageText;
     public Button ShowPanelButton;
     public Button HidePanelButton;
     public Button ShareVideoButton;
     public Button CancelShareVideoButton;
     public Button OpenGalleryButton;
 
-    public CanvasGroup ShareDialogue;
+    public CanvasGroup RecordingPanelCG;
+    public CanvasGroup ShareDialogueCG;
+
+    public RectTransform RecordingPanelRT;
 
 
     private NatCorder.Examples.ReplayCam ReplayCam;
@@ -26,6 +30,10 @@ public class ScreenRecorderUIController : MonoBehaviour
     void Start()
     {
         ReplayCam = FindObjectOfType<NatCorder.Examples.ReplayCam>();
+        ReplayCam.saveFolder = SaveFolder;
+
+        MessageText.transform.GetComponentInParent<CanvasGroup>().alpha = 0f;
+        
         PanelVisibility(false, 0f);
         ShareDialogueVisibility(false, 0f);
         ButtonsSetup();
@@ -66,21 +74,21 @@ public class ScreenRecorderUIController : MonoBehaviour
     IEnumerator DOPanelVisibility(bool b, float t) {
         if (b)
         {
-            transform.GetComponent<CanvasGroup>().interactable = true;
-            transform.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            transform.GetComponent<CanvasGroup>().alpha = 1f;
-            transform.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0f, 0f), transitionTime);
+            RecordingPanelCG.interactable = true;
+            RecordingPanelCG.blocksRaycasts = true;
+            RecordingPanelCG.alpha = 1f;
+            RecordingPanelRT.DOAnchorPos(new Vector2(0f, 0f), t);
             panelIsVisible = true;
         }
         else {
-            transform.GetComponent<RectTransform>().DOAnchorPos(new Vector2(0f, -transform.GetComponent<RectTransform>().sizeDelta.y), transitionTime).OnComplete(()=>{
-                transform.GetComponent<CanvasGroup>().interactable = false;
-                transform.GetComponent<CanvasGroup>().blocksRaycasts = false;
-                transform.GetComponent<CanvasGroup>().alpha = 0f;
-                panelIsVisible = false;
+            RecordingPanelRT.DOAnchorPos(new Vector2(0f, -RecordingPanelRT.sizeDelta.y), t).OnComplete(()=>{
+            RecordingPanelCG.interactable = false;
+            RecordingPanelCG.blocksRaycasts = false;
+            RecordingPanelCG.alpha = 0f;
+            panelIsVisible = false;
             });
         }
-        yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(t);
     }
 
     public void ShareDialogueVisibility(bool b, float t) {
@@ -90,17 +98,30 @@ public class ScreenRecorderUIController : MonoBehaviour
     IEnumerator DOShareDialogueVisibility(bool b, float t) {
         if (b)
         {
-            ShareDialogue.DOFade(1f, t);
+            ShareDialogueCG.DOFade(1f, t);
         }
         else {
-            ShareDialogue.DOFade(0f, t);
+            ShareDialogueCG.DOFade(0f, t);
         }
 
-        ShareDialogue.interactable = b;
-        ShareDialogue.blocksRaycasts = b;
+        ShareDialogueCG.interactable = b;
+        ShareDialogueCG.blocksRaycasts = b;
         shareDialogueIsVisible = b;
 
-        yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(t);
+    }
+
+    public void SetMessageText(string s) {
+        MessageText.text = s;
+        StartCoroutine(DOSetMessageText());
+    }
+
+    IEnumerator DOSetMessageText() {
+
+        MessageText.transform.GetComponentInParent<CanvasGroup>().DOFade(1f, 0.125f);
+        yield return new WaitForSeconds(2.0f);
+        MessageText.transform.GetComponentInParent<CanvasGroup>().DOFade(0f, 1f);
+        yield return new WaitForSeconds(1.0f);
     }
 
 
@@ -112,9 +133,47 @@ public class ScreenRecorderUIController : MonoBehaviour
             if (path != null)
             {
                 // Play the selected video
-                Handheld.PlayFullScreenMovie("file://" + path);
+                Handheld.PlayFullScreenMovie("file://" + path + "/" + SaveFolder);
             }
         }, "Select a video");
+
+        Debug.Log("Permission result: " + permission);
+    }
+
+    private void PickImage(int maxSize)
+    {
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+        {
+            Debug.Log("Image path: " + path);
+            if (path != null)
+            {
+                // Create Texture from selected image
+                Texture2D texture = NativeGallery.LoadImageAtPath(path, maxSize);
+                if (texture == null)
+                {
+                    Debug.Log("Couldn't load texture from " + path);
+                    return;
+                }
+
+                // Assign texture to a temporary quad and destroy it after 5 seconds
+                GameObject quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                quad.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2.5f;
+                quad.transform.forward = Camera.main.transform.forward;
+                quad.transform.localScale = new Vector3(1f, texture.height / (float)texture.width, 1f);
+
+                Material material = quad.GetComponent<Renderer>().material;
+                if (!material.shader.isSupported) // happens when Standard shader is not included in the build
+                    material.shader = Shader.Find("Legacy Shaders/Diffuse");
+
+                material.mainTexture = texture;
+
+                Destroy(quad, 5f);
+
+                // If a procedural texture is not destroyed manually, 
+                // it will only be freed after a scene change
+                Destroy(texture, 5f);
+            }
+        }, "Select a PNG image", "image/png", maxSize);
 
         Debug.Log("Permission result: " + permission);
     }

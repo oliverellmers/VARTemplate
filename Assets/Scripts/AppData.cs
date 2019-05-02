@@ -7,5 +7,6 @@ using UnityEngine.UI;
 public class AppData
 {
     public string StartScene;
-    public CanvasGroup[] UILayers;
+    //public CanvasGroup[] UILayers;
+    public GameObject[] UILayers;
 }
