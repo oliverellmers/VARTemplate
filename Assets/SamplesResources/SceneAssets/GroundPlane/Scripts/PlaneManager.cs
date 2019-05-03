@@ -27,7 +27,7 @@ public class PlaneManager : MonoBehaviour
     [SerializeField] PlaneFinderBehaviour planeFinder = null;
     [SerializeField] MidAirPositionerBehaviour midAirPositioner = null;
 
-    [Header("Plane, Mid-Air, & Placement Augmentations")]
+    [Header("Augmentation")]
     [SerializeField] GameObject planeAugmentation = null;
     [SerializeField] GameObject midAirAugmentation = null;
     [SerializeField] GameObject placementAugmentation = null;

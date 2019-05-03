@@ -47,7 +47,14 @@ public class ScreenRecorderUIController : MonoBehaviour
             }
         });
 
-        HidePanelButton.onClick.AddListener(() => { PanelVisibility(false, transitionTime); });
+        HidePanelButton.onClick.AddListener(() => {
+            PanelVisibility(false, transitionTime);
+            if (shareDialogueIsVisible)
+            {
+                ShareDialogueVisibility(false, transitionTime);
+                ReplayCam.DiscardVideo();
+            }
+        });
 
         ShareVideoButton.onClick.AddListener(() => {
             ReplayCam.ShareImage();

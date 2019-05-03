@@ -1,38 +1,35 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-namespace ScriptableEvents
+[CustomEditor(typeof(SOEvent_Integer))]
+public class SOEvent_IntegerEditor : Editor
 {
-    [CustomEditor(typeof(SOEvent_Integer))]
-    public class SOEvent_IntegerEditor : Editor
+    private int tempValue = -1;
+
+    public override void OnInspectorGUI()
     {
-        private int tempValue = -1;
+        serializedObject.Update();
 
-        public override void OnInspectorGUI()
+        SOEvent_Integer script = (SOEvent_Integer)target;
+
+        EditorGUILayout.LabelField("Event Description");
+        EditorStyles.textField.wordWrap = true;
+        script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
+
+        script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
+
+        if (Application.isPlaying)
         {
-            serializedObject.Update();
+            tempValue = EditorGUILayout.IntField("Value to use", tempValue);
 
-            SOEvent_Integer script = (SOEvent_Integer)target;
-
-            EditorGUILayout.LabelField("Event Description");
-            EditorStyles.textField.wordWrap = true;
-            script.DescriptionText = EditorGUILayout.TextField(script.DescriptionText, GUILayout.MinHeight(100));
-
-            script.ShowDebugMessages = EditorGUILayout.Toggle("Send Debug Messages", script.ShowDebugMessages);
-
-            if (Application.isPlaying)
+            if (GUILayout.Button("Raise Event"))
             {
-                tempValue = EditorGUILayout.IntField("Value to use", tempValue);
-
-                if (GUILayout.Button("Raise Event"))
-                {
-                    script.Raise(tempValue);
-                }
+                script.Raise(tempValue);
             }
-
-            serializedObject.ApplyModifiedProperties();
-
-            EditorUtility.SetDirty(script);
         }
+
+        serializedObject.ApplyModifiedProperties();
+
+        EditorUtility.SetDirty(script);
     }
 }
