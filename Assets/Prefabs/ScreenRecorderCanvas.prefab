@@ -682,10 +682,10 @@ RectTransform:
   m_Father: {fileID: 6190855231549112300}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 256, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 256, y: -128}
+  m_SizeDelta: {x: 0, y: 192}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6190855230843064452
 CanvasRenderer:
@@ -2927,10 +2927,10 @@ RectTransform:
   m_Father: {fileID: 6190855231549112300}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1127.9331, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1127.9331, y: -128}
+  m_SizeDelta: {x: 0, y: 192}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &6190855232192927068
 CanvasRenderer:
@@ -3137,11 +3137,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114702512721743734, guid: d88712a49642b4b49b8322acc70b918b,
-        type: 3}
-      propertyPath: m_Color.a
-      value: 0.7490196
-      objectReference: {fileID: 0}
     - target: {fileID: 114316963683169970, guid: d88712a49642b4b49b8322acc70b918b,
         type: 3}
       propertyPath: onButtonTapped.m_PersistentCalls.m_Calls.Array.size
@@ -3191,6 +3186,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onButtonTapped.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114702512721743734, guid: d88712a49642b4b49b8322acc70b918b,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.7490196
       objectReference: {fileID: 0}
     - target: {fileID: 114734979408368796, guid: d88712a49642b4b49b8322acc70b918b,
         type: 3}
