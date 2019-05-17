@@ -682,10 +682,10 @@ RectTransform:
   m_Father: {fileID: 6190855231549112300}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 256, y: -128}
-  m_SizeDelta: {x: 0, y: 192}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 256, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6190855230843064452
 CanvasRenderer:
@@ -1055,11 +1055,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6190855231031549628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02641e9e576064f35a2dab995981e691, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d452dc5480eb9547b907134b3036a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   recordMicrophone: 0
-  microphoneSource: {fileID: 6190855231031549630}
+  microphoneSource: {fileID: 0}
   saveFolder: 
   videoPath: 
 --- !u!82 &6190855231031549630
@@ -2927,10 +2927,10 @@ RectTransform:
   m_Father: {fileID: 6190855231549112300}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1127.9331, y: -128}
-  m_SizeDelta: {x: 0, y: 192}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1127.9331, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &6190855232192927068
 CanvasRenderer:
